@@ -19,14 +19,14 @@ BOT_TOKEN = environ.get('BOT_TOKEN', '8863078609:AAFP6Do_XeGa3_mFBw55adzK4ekdKHT
 #---------------------------------------------------------------
 #---------------------------------------------------------------
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '6024953191').split()]
-USERNAME = environ.get('USERNAME', "https://t.me/TechRahul0123") # ADMIN USERNAME
+USERNAME = environ.get('USERNAME', "@technoshiva") # ADMIN USERNAME
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1003822332974'))
 MOVIE_GROUP_LINK = environ.get('MOVIE_GROUP_LINK', 'https://t.me/+ZpDQjbiS0SMyYzNl')
 CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1003441054653').split()]
 #---------------------------------------------------------------
 #---------------------------------------------------------------
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Rahuldd:Rahuldd@rahuldd.2nhoayd.mongodb.net/?appName=Rahuldd")
-DATABASE_NAME = environ.get('DATABASE_NAME', "Rahuldd")
+DATABASE_URI = environ.get('DATABASE_URI', " mongodb+srv://Shiva:Shiva@shiva.j1zhm24.mongodb.net/?appName=Shiva")
+DATABASE_NAME = environ.get('DATABASE_NAME', "Shiva")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 #---------------------------------------------------------------
 #---------------------------------------------------------------
