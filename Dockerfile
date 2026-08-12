@@ -1,18 +1,13 @@
 FROM python:3.12-slim
 
-# System dependencies install karna zaroori hai
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    git \
-    libjpeg-dev \
-    zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
-COPY . /app/
+
+COPY advanced_movie_bot/requirements.txt /app/requirements.txt
+COPY advanced_movie_bot /app/advanced_movie_bot
 
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+    && pip install --no-cache-dir -r /app/requirements.txt
 
-EXPOSE 8080
+WORKDIR /app/advanced_movie_bot
+
 CMD ["python", "bot.py"]
