@@ -29,6 +29,8 @@ class Database:
                     PRIMARY KEY (user_id, movie_id),
                     FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE
                 );
+                CREATE INDEX IF NOT EXISTS idx_favorites_user_added
+                    ON favorites(user_id, added_at DESC);
                 """
             )
             conn.commit()
@@ -45,17 +47,26 @@ class Database:
 
     def add_favorite(self, user_id: int, movie_id: int):
         with closing(self._connect()) as conn:
-            conn.execute("INSERT OR IGNORE INTO favorites(user_id, movie_id) VALUES(?, ?)", (user_id, movie_id))
+            conn.execute(
+                "INSERT OR IGNORE INTO favorites(user_id, movie_id) VALUES(?, ?)",
+                (user_id, movie_id),
+            )
             conn.commit()
 
     def remove_favorite(self, user_id: int, movie_id: int):
         with closing(self._connect()) as conn:
-            conn.execute("DELETE FROM favorites WHERE user_id=? AND movie_id=?", (user_id, movie_id))
+            conn.execute(
+                "DELETE FROM favorites WHERE user_id=? AND movie_id=?",
+                (user_id, movie_id),
+            )
             conn.commit()
 
     def is_favorite(self, user_id: int, movie_id: int) -> bool:
         with closing(self._connect()) as conn:
-            row = conn.execute("SELECT 1 FROM favorites WHERE user_id=? AND movie_id=?", (user_id, movie_id)).fetchone()
+            row = conn.execute(
+                "SELECT 1 FROM favorites WHERE user_id=? AND movie_id=?",
+                (user_id, movie_id),
+            ).fetchone()
             return row is not None
 
     def get_favorites(self, user_id: int, limit: int = 20):
@@ -65,3 +76,11 @@ class Database:
                 (user_id, limit),
             ).fetchall()
             return [row[0] for row in rows]
+
+    def count_users(self) -> int:
+        with closing(self._connect()) as conn:
+            return int(conn.execute("SELECT COUNT(*) FROM users").fetchone()[0])
+
+    def count_favorites(self) -> int:
+        with closing(self._connect()) as conn:
+            return int(conn.execute("SELECT COUNT(*) FROM favorites").fetchone()[0])
